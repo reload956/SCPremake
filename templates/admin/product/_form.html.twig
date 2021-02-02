@@ -1,0 +1,70 @@
+
+{% if show_confirmation|default(false) %}
+    {% set attr = {'data-confirmation': 'true'} %}
+    {{ include('product/_delete_post_confirmation.html.twig') }}
+{% endif %}
+
+{{ form_start(form, {attr: attr|default({})}) }}
+ {{ form_start(form) }}
+
+<div class="well">
+    <div class="form_group">
+        <div class="col-md-12 mb-3">
+            {{ form_row(form.name, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form_group">
+        <div class="col-md-12 mb-48">
+            {{ form_row(form.summary, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form_group">
+        <div class="col-md-12 mb-48">
+            {{ form_row(form.description, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form_group">
+        <div class="col-md-12 mb-3">
+            {{ form_row(form.price, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form_group">
+        <div class="col-md-12 mb-3">
+            {{ form_row(form.category, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form_group">
+        <div class="col-md-12 mb-3">
+            {{ form_row(form.quantity, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form_group">
+        <div class="col-md-6 mb-3" style="margin-right: 100%; margin-bottom: 30px">
+            {{ form_row(form.image_form, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+    <div class="group_form">
+        <div class="col-md-12 md-3" style="margin-right: 100%; margin-bottom: 40px">
+            {{ form_row(form.tags, {'attr': {'class':
+                'form-control'}}) }}
+        </div>
+    </div>
+
+
+    <button type="submit" class="{{ button_css|default("btn btn-primary") }}">
+        <i class="fa fa-save" aria-hidden="true"></i> {{ button_label|default('label.create_post'|trans) }}
+    </button>
+
+    {% if include_back_to_home_link|default(false) %}
+        <a href="{{ path('admin_product_index') }}" class="btn btn-link">
+            <i class="fa fa-list-alt" aria-hidden="true"></i> RETURN
+        </a>
+    {% endif %}
+{{ form_end(form) }}

@@ -1,0 +1,28 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body_id 'admin_post_show' %}
+
+{% block main %}
+    <h1>{{ product.name }}</h1>
+
+    <div class="well">
+        <img src="public\uploads\brochures\{{ product.image }}"style="width: 250px;margin-right: 50%">
+        <p class="m-b-0"><strong>summary</strong>: {{ product.summary }}</p>
+    </div>
+
+    {{ product.description|markdown_to_html}}
+
+    {{ include('product/_product_tags.html.twig') }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('admin_product_edit', {id: product.id}) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-edit" aria-hidden="true"></i> EDIT
+        </a>
+    </div>
+
+    <div class="section">
+        {{ include('admin/product/_delete_form.html.twig', {product: product}, with_context = false) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'blog_index' %}
+
+{% block main %}
+    <h2>Order history</h2>
+    {% for order in orders %}
+        <article class="well">
+            <h2>
+                <a href = "{{ path('order.detail', {slug: order.slug}) }}">
+                    {{ order.slug }}
+                </a>
+                <p>{{order.total}}</p>
+            </h2>
+        </article>
+    {% else %}
+        <div class="well">no orders found</div>
+    {% endfor %}
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(orders)}}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

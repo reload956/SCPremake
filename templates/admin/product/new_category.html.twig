@@ -1,0 +1,53 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body_id 'admin_post_new' %}
+
+{% block main %}
+
+    <h1>NEW CATEGORY</h1>
+
+    {{ form_start(form) }}
+
+    <div class="well">
+        <div class="form_group">
+            <div class="col-md-12 mb-3">
+                {{ form_row(form.name, {'attr': {'class':
+                    'form-control'}}) }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-save" aria-hidden="true"></i> ADD CATEGORY
+        </button>
+        {{ form_widget(form.saveAndCreateNew, {label: 'SAVE AND CONTINUE', attr: {class: 'btn btn-primary'}}) }}
+        <a href="{{ path('admin_product_index') }}" class="btn btn-link">
+            <i class="fa fa-list-alt" aria-hidden="true"></i> BACK TO HOMEPAGE
+        </a>
+    </div>
+
+    {{ form_end(form) }}
+
+<table class="table table-striped table-middle-aligned">
+    <thead>
+    <tr>
+        <th scope="col">NAME</th>
+        <th scope="col">SLUG</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for cat in categoryTable %}
+    <tr>
+        <td>{{ cat.name }}</td>
+        <td>{{ cat.slug }}</td>
+    </tr>
+    {% else %}
+        <tr>
+            <td colspan="4" align="center">no products found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+{% block sidebar %}
+{% endblock %}

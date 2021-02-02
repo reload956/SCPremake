@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+
+    article {
+        background-color: RGB(249, 255, 16); /* Цвет фона под заголовком */
+        max-width: 600px;
+    }
+    input {
+        border-radius: 10px;
+    }
+
+</style>
+    <div class="row mt-4">
+        <h2>{{ delivery.relOrder.slug }}</h2>
+    </div>
+
+    <div class="row mt-4">
+<article class="well" >
+    <h2>Delivery Info</h2>
+    <h5>In transit:</h5>
+    <p>{{ processing}}</p>
+    <h5>City</h5>
+    <p>{{ delivery.city}}</p>
+    <h5>street</h5>
+    <p>{{ delivery.address }}</p>
+    <h5>home number</h5>
+    <p>{{ delivery.homeNumber }}</p>
+    <h5>flat</h5>
+    <p>{{ delivery.flat }}</p>
+</article>
+        <a href="{{ path('orderlist')}}" class="btn btn-default w-100">BACK</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Order: {{ order.slug }}</h1>
+
+        {% if order.items.count > 0 %}
+            <div class="row mt-4">
+                <!-- List of items -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {% for item in order.items %}
+                                <li class="list-group-item d-flex">
+                                    <div class="flex-fill mr-2">
+                                        <img src="https://via.placeholder.com/200x150" width="64" alt="Product image">
+                                    </div>
+                                    <div class="flex-fill mr-2">
+
+                                        <a href="{{ path('product.detail', {slug: item.product.slug}) }}">
+                                            <h3 class="mt-0 mb-0">{{ item.product.name }}</h3>
+                                        </a>
+
+                                        <small>{{ item.product.description[:50] }}...</small>
+                                        <div class="form-inline mt-2">
+                                            <p> Quantity: {{ item.quantity }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex-fill mr-2 text-right">
+                                        <b>{{ item.product.price }} €</b>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- Summary -->
+                <div class="col-md-4">
+                    <div class="card mt-4 mt-md-0">
+                        <h3 class="card-header bg-dark text-white">Summary</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div><b>Total</b></div>
+                                <span><b>{{ order.total }} €</b></span>
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="{{path('order.detail.delivery', {slug: order.slug}) }}" class="btn btn-info faw-100">
+                                <i class="fa fa-cart"></i>DELIVERY INFO
+                            </a>
+                            <a href="{{ path('orderlist')}}" class="btn btn-default w-100">BACK</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                You made no orders yet. Go to the <a href="{{ path('product_index') }}">product list</a>.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

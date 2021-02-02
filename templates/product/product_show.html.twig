@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'blog_post_show' %}
+
+{% block main %}
+<article class="well">
+    <td><img src="https://via.placeholder.com/250x250"style="width: 250px;margin-right: 50%">
+            {{ product.price }}
+        </a>
+    </td>
+
+        <h1>{{ product.name }}</h1>
+
+        {{ include('product/_product_tags.html.twig') }}
+
+    {{ form_start(form, {'attr': {'class': 'mt-4 p-4 bg-light'}}) }}
+    <div class="form-group">
+        {{ form_label(form.quantity) }}
+        {{ form_widget(form.quantity, {
+            'attr': {
+                'class': 'form-control ' ~ (form.quantity.vars.valid ? '' : 'is-invalid')
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.quantity) }}
+        </div>
+    </div>
+    {{ form_widget(form.add, {'attr': {'class': 'btn btn-warning w-25'}}) }}
+    {{ form_end(form) }}
+
+</article>
+    <article class="well">
+        <h3>Description</h3>
+    <i class="fa fa-info">
+        {{ product.description|markdown_to_html}}
+    </i>
+
+</article>
+
+
+
+    <div id="post-add-comment" class="well">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ render(controller('App\\Controller\\ProductController::commentForm', {'id': product.id})) }}
+        {% else %}
+            <p>
+                <a class="btn btn-success" href="{{ path('app_login', {'redirect_to': app.request.pathInfo}) }}">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> Login
+                </a>
+                only authorized users can publish comments
+            </p>
+        {% endif %}
+    </div>
+
+    <h3>
+        <i class="fa fa-comments" aria-hidden="true"></i>  amount of comments {{product.comments|length}}
+    </h3>
+
+    {% for comment in product.comments %}
+        <div class="row post-comment">
+            <a name="comment_{{ comment.id }}"></a>
+            <h4 class="col-sm-3">
+                <strong>{{ comment.author.username }}</strong>
+                <strong>{{ comment.publishedAt|format_datetime('medium', 'short', '', 'UTC') }}</strong>
+            </h4>
+            <div class="col-sm-9">
+                {{ comment.content|markdown_to_html}}
+            </div>
+        </div>
+    {% else %}
+        <div class="post-comment">
+            <p>no comments yet</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

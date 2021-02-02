@@ -1,0 +1,25 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body_id 'admin_product_edit' %}
+
+{% block main %}
+    <h1>{{ 'title.edit_post'|trans({'%id%': product.id}) }}</h1>
+
+    {{ include('admin/product/_form.html.twig', {
+        form: form,
+        button_label: 'SAVE',
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section">
+        <a href="{{ path('admin_product_show', {id: product.id}) }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-eye" aria-hidden="true"></i> SHOW
+        </a>
+    </div>
+
+    <div class="section actions">
+        {{ include('admin/product/_delete_form.html.twig', {product: product}, with_context = false) }}
+    </div>
+{% endblock %}

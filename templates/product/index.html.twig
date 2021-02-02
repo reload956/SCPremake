@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'blog_index' %}
+
+{% block main %}
+    {% for product in products %}
+        <article class="well">
+            <h2>
+                <td><img src="/public/uploads/brochures/{{ product.image }}" style="width: 100px;"></td>
+                <a href="{{ path('product.detail', {slug: product.slug}) }}">
+                    {{ product.name }}
+                </a>
+                <br>
+                    <i class="fa fa-money" aria-hidden="true">
+                    {{ product.price }}₽
+                    </i>
+            </h2>
+
+            <p>{{ product.summary }}</p>
+            {{ include('product/_product_tags.html.twig') }}
+        </article>
+    {% else %}
+        <div class="well">no products found</div>
+    {% endfor %}
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(products)}}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <h1>Categories</h1>
+    {% for category in categories %}
+        <li>
+            <a href="{{ path('category_search', {id: category.id}) }}" class="btn btn-primary" style="width: 200px">
+                <i class="fa fa-cart"></i>{{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}
