@@ -5,7 +5,7 @@
 {% block main %}
 <article class="well">
     <td><img src="https://via.placeholder.com/250x250"style="width: 250px;margin-right: 50%">
-            {{ product.price }}
+            {{ product.price }}₽
         </a>
     </td>
 
@@ -14,7 +14,7 @@
         {{ include('product/_product_tags.html.twig') }}
 
     {{ form_start(form, {'attr': {'class': 'mt-4 p-4 bg-light'}}) }}
-    <div class="form-group">
+    <div class="row mt-4">
         {{ form_label(form.quantity) }}
         {{ form_widget(form.quantity, {
             'attr': {

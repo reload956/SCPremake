@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Delivery;
+use App\Entity\OrderItem;
 use App\Entity\User;
 use App\Form\CartType;
 use App\Form\DeliveryType;
@@ -43,7 +44,7 @@ class CartController extends AbstractController
             //foreach ($cart->getItems() as $item) {
             //    $em->persist($item);
             //    $em->flush();
-          //  }
+            //  }
             return $this->redirectToRoute('cart');
         }
 
@@ -88,6 +89,11 @@ class CartController extends AbstractController
             $em->flush();
             $em->persist($user);
             $em->flush();
+            foreach($cart->getItems() as $item){
+                $item->getProduct()->setQuantity($item->getProduct()->getQuantity() - $item->getQuantity());
+                $em->persist($item);
+                $em->flush();
+            }
             return $this->redirectToRoute('cart');
         }
 
@@ -96,5 +102,74 @@ class CartController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
         ]);
+    }
+
+
+    /**
+     * @Route("/cart/increase/{id}", name="increase_cart_product_process")
+     * @param OrderItem $orderItem
+     * @return Response
+     */
+
+    public function increaseProduct(OrderItem $orderItem)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Authorize first!');
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($orderItem->getQuantity() >= $orderItem->getProduct()->getQuantity()) {
+            return $this->redirectToRoute("cart");
+        } else {
+            $orderItem->setQuantity($orderItem->getQuantity() + 1);
+            $em->persist($orderItem);
+            $em->flush();
+
+        }
+
+        return $this->redirectToRoute("cart");
+    }
+
+    /**
+     * @Route("/cart/decrease/{id}", name="decrease_cart_product_process")
+     * @param OrderItem $orderItem
+     * @return Response
+     */
+    public function decreaseProduct(OrderItem $orderItem)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($orderItem->getQuantity() > 1) {
+            $orderItem->setQuantity($orderItem->getQuantity() - 1);
+            $em->persist($orderItem);
+            $em->flush();
+
+        } else {
+            $em->remove($orderItem);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute("cart");
+    }
+
+    /**
+     * @Route("/cart/maxAV/{id}", name="set_max_cart_product_process")
+     * @param OrderItem $orderItem
+     * @return Response
+     */
+    public function setMaxAvailable(OrderItem $orderItem)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($orderItem->getQuantity() >= $orderItem->getProduct()->getQuantity()) {
+            $orderItem->setQuantity($orderItem->getProduct()->getQuantity());
+            $em->persist($orderItem);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute("cart");
     }
 }

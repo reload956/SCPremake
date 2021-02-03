@@ -14,6 +14,7 @@ class DeliveryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('city',TextType::class)
             ->add('Address',TextType::class)
             ->add('home_number',IntegerType::class)
             ->add('flat',IntegerType::class)
