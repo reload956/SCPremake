@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Entity\Comment;
 use App\Event\CommentCreatedEvent;
@@ -66,14 +67,14 @@ class ProductController extends AbstractController
      */
     public function detail(Product $product, Request $request, CartManager $cartManager): Response
     {
-        $form = $this->createForm(AddToCartType::class);
+        $orderItem = new OrderItem();
+        $orderItem->setProduct($product);
+        $form = $this->createForm(AddToCartType::class, $orderItem);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
-            $item->setProduct($product);
-
             $cart = $cartManager->getCurrentCart();
             $cart
                 ->addItem($item)

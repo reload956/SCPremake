@@ -7,6 +7,7 @@ use App\Pagination\Paginator;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Symfony\Component\String\u;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -38,6 +39,8 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $query
+     * @param int $limit
      * @return Product[]
      */
     public function findBySearchQuery(string $query, int $limit = Paginator::PAGE_SIZE): array

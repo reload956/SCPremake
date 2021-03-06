@@ -44,9 +44,15 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(products)}}
+    </div>
+
 {% endblock %}
 
 {% block sidebar %}
+
     <div class="section actions">
         <a href="{{ path('admin_product_new') }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i> ADD NEW PRODUCT

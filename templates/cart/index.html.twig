@@ -43,9 +43,6 @@
                                                 <a  href="{{ path('increase_cart_product_process', {'id':item.vars.data.id}) }}">
                                                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                                                 </a>
-                                                {% if item.vars.data.quantity > item.vars.data.product.quantity %}
-                                                    <meta http-equiv="refresh" content="time;{{ path('set_max_cart_product_process',{'id':item.vars.data.id})}}">
-                                                {% endif %}
                                             </div>
                                             {{ form_widget(item.remove, {'attr': {'class': 'btn btn-dark btn-sm'}}) }}
                                         </div>

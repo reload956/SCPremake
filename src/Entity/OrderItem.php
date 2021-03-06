@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as OrderItemAssert;
 
 /**
  * @ORM\Entity(repositoryClass=OrderItemRepository::class)
@@ -27,8 +28,8 @@ class OrderItem
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank()
-     * @Assert\GreaterThanOrEqual(1)
-     * @Assert\LessThanOrEqual(2)
+     * @OrderItemAssert\notEnoughProduct()
+     * @OrderItemAssert\lessorEqualZero()
      *
      */
     private $quantity;
@@ -63,8 +64,11 @@ class OrderItem
 
     public function setQuantity(int $quantity): self
     {
-        $this->quantity = $quantity;
-
+        if($quantity<= $this->getProduct()->getQuantity()) {
+            $this->quantity = $quantity;
+            return $this;
+        }
+        $this->quantity = -1;
         return $this;
     }
 
